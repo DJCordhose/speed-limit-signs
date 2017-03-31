@@ -132,13 +132,151 @@ for providing the initial idea and many of the functions used to prepare and dis
         </section>
 
         <section>
-            <h3>Step 0: Looking at the samples and understanding the challenge</h3>
+            <h3>Task 0: Looking at the samples and understanding the challenge</h3>
             <h4>What preparation is needed?</h4>
             <h4>Jupyter Notebook basics</h4>
             <p>We open the first notebook and go through it together</p>
                 <a href="https://notebooks.azure.com/run/djcordhose/cnns?dest=/notebooks/pydata-london.ipynb" target="_blank">
                     https://notebooks.azure.com/run/djcordhose/cnns?dest=/notebooks/pydata-london.ipynb
                 </a>
+        </section>
+
+        <section>
+            <h3>Steps</h3>
+            <ol>
+                <li>Open link to notebooks: <a href="https://notebooks.azure.com/djcordhose/libraries/cnns" target="_blank">
+                    https://notebooks.azure.com/djcordhose/libraries/cnns
+                </a> in any browser
+                <li>Click on the notebook named <em>pydata-london.ipynb</em></li>
+                <li>Either log in with your existing Microsoft Account or create a new one
+            </ol>
+        </section>
+
+        <section>
+            <h3>Task 1: Train and Validate a simple Keras Model</h3>
+        </section>
+
+        <section>
+            <h3>Task 2: Creating a convolutional Network</h3>
+        </section>
+
+        <section>
+            <h3>Deep Learning</h3>
+            <div class="fragment">
+            <img src="img/deep-learning.png" height="500">
+            <p><small><a target="_blank" href="https://drive.google.com/file/d/0BxKBnD5y2M8NdFB4U1BtU1V1ejA/view">
+            Deep Learning: Course by Yann LeCun at Collège de France 2016
+            </a></small></p>
+            </div>
+        </section>
+
+        <section>
+            <h2>Convolutional Networks (CNN)</h2>
+            <h3>special networks to process images</h3>
+            <h3>using different kinds of specialized layers</h3>
+            <h3>often used with pre-trained models</h3>
+        </section>
+
+        <section>
+            <h3>Google Inception Convolutional Network architecture to classify images </h3>
+            <img src="img/inception.png" height="480px">
+            <p><small><a href="https://arxiv.org/abs/1409.4842" target="_blank">Going Deeper with Convolutions</a></small></p>
+        </section>
+
+        <section>
+            <h3>Convolutional Networks</h3>
+            <p>turning shallow, but large data into deep semantic information</p>
+            <div>
+                <ul class="fragment">
+                    <li>some layers turn input into a number of filtered outputs
+                    <li>other layers down sample images (giving them a lower resoluation)
+                    <li>each layer adds semantic information
+                </ul>
+            </div>
+            <!--<img src="conv-network.svg">-->
+            <!--<p><small><a target="_blank" href="https://openai.com/blog/generative-models/">-->
+            <!--https://openai.com/blog/generative-models/-->
+            <!--</a></small></p>-->
+            <img src="img/udacity-ud730-convolutional-pyramid.png" style="height: 350px">
+            <p><small><a target="_blank" href="https://www.udacity.com/course/deep-learning--ud730">
+                Udacity Course 730, Deep Learning (L3 Convolutional Neural Networks > Convolutional Networks)
+            </a></small></p>
+        </section>
+
+        <section>
+        <h3>Convolutions</h3>
+        <div class="fragment">
+        <img src="img/udc-730-convolutions.png" height="500">
+        <p><small><a target="_blank" href="https://www.udacity.com/course/deep-learning--ud730">
+        Udacity Course 730, Deep Learning (L3 Convolutional Neural Networks > Convolutional Networks)
+        </a></small></p>
+        </div>
+        </section>
+
+        <section>
+        <h3>Translation Invariance</h3>
+        <div class="fragment">
+        <img src="img/udc-730-translation-invariance.png" height="500">
+        <p><small><a target="_blank" href="https://www.udacity.com/course/deep-learning--ud730">
+        Udacity Course 730, Deep Learning (L3 Convolutional Neural Networks > Convolutional Networks)
+        </a></small></p>
+        </div>
+        </section>
+
+        <section>
+            <h3>Intuition for Convolutional Networks</h3>
+            <div class="fragment">
+                <p>E.g. to recognize dogs (again a classification problem)</p>
+                <img src="img/dogs.jpg">
+                <p class="fragment">using an internal representation like</p>
+                <img class="fragment" src="img/vgg_filter_05_crop.jpg">
+            </div>
+            <p><small><a target="_blank" href="https://auduno.github.io/2016/06/18/peeking-inside-convnets/">
+                https://auduno.github.io/2016/06/18/peeking-inside-convnets/
+            </a></small></p>
+        </section>
+
+        <section>
+            <h2>Convolutional Layer</h2>
+            <pre><code data-trim class="line-numbers">
+.layer(0, new ConvolutionLayer.Builder(5, 5) // 5x5 kernel
+    .nIn(1)
+    .stride(1, 1) // how far do the filters move with each step?
+    .nOut(20) // number of filters applied
+    .build())
+            </code></pre>
+            <p>You cascade many of them having down sampling in between</p>
+        </section>
+
+        <section>
+            <h2>Down Sampling Layer</h2>
+            <pre><code data-trim class="line-numbers">
+.layer(1, new SubsamplingLayer.Builder(SubsamplingLayer.PoolingType.MAX)
+    .kernelSize(2, 2)
+    .stride(2, 2)
+    .build())
+            </code></pre>
+            <p>Reduces data sizes and risk of overfitting</p>
+        </section>
+
+        <section>
+            <h3>Layout of a typical CNN</h3>
+            <a target="_blank" href="http://cs231n.github.io/convolutional-networks/">
+                <img src="img/convnet-layoyt.jpeg">
+            </a>
+            <a target="_blank" href="http://cs231n.github.io/convolutional-networks/">http://cs231n.github.io/convolutional-networks/</a>
+        </section>
+
+        <section>
+            <h2>Last Two Layers are again standard</h2>
+            <pre><code data-trim class="line-numbers">
+.layer(4, new DenseLayer.Builder().activation(Activation.RELU)
+    .nOut(500).build())
+.layer(5, new OutputLayer.Builder()
+    .nOut(10)
+    .activation(Activation.SOFTMAX)
+    .build())
+            </code></pre>
         </section>
 
    </div>
