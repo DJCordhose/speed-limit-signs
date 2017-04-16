@@ -13,7 +13,7 @@
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent"/>
 
     <meta name="viewport"
-          content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, minimal-ui">
+          content="initial-scale=1.0, maximum-scale=10.0, user-scalable=yes">
 
     <link rel="stylesheet" href="reveal.js/css/reveal.css">
     <!--<link rel="stylesheet" href="reveal.js/css/theme/white.css" id="theme">-->
@@ -52,6 +52,11 @@
         }
         code span.line-number {
             color: lightcoral;
+        }
+
+        .reveal {
+          -ms-touch-action: auto !important;
+              touch-action: auto !important;
         }
 
     </style>
@@ -103,6 +108,7 @@
   - http://cs.stanford.edu/people/karpathy/convnetjs/demo/cifar10.html
 - https://keras.io/getting-started/faq/#how-can-i-save-a-keras-model
 - why relu
+- provide pre trained network
 </pre>
         </section>
 
@@ -296,7 +302,7 @@ for providing the initial idea and many of the functions used to prepare and dis
             </code></pre>
         </section>
 
-        <section>
+        <section class="todo">
             <h2>Why does this work?</h2>
             <ol>
                 <li>CNNs are mostly a black box
@@ -305,18 +311,30 @@ for providing the initial idea and many of the functions used to prepare and dis
             </ol>
         </section>
 
-        <section>
+        <section class="todo">
             <h3>Why RELU Activation?</h3>
         </section>
 
-        <section>
+        <section class="todo">
             <h3>How do we achieve translation invariance?</h3>
         </section>
 
-        <section>
+        <section class="todo">
             <h3>Batch Sizes</h3>
         </section>
 
+        <section class="todo">
+            <h3>Loss vs Accuracy</h3>
+        </section>
+
+        <section class="todo">
+            <h3>A word on overfitting</h3>
+            <ol>
+                <li>we do not have a lot of data to train with
+                <li>80 / 20 split for training might still be a bad idea
+                <li>very likely we are overfitting just because of this
+            </ol>
+        </section>
 
    </div>
 
@@ -381,7 +399,6 @@ for providing the initial idea and many of the functions used to prepare and dis
             },
             {src: 'reveal.js/plugin/zoom-js/zoom.js', async: true},
             {src: 'reveal.js/plugin/notes/notes.js', async: true},
-            // https://github.com/mikemiles86/reveal-line-numbers
             {src: 'lib/js/line-numbers.js'}
         ]
     });

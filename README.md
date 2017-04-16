@@ -17,7 +17,7 @@ for providing the initial idea and many of the functions used to prepare and dis
 
 ## Troubleshooting
 * If you see `Intel MKL FATAL ERROR: Cannot load libmkl_avx2.so or libmkl_def.so.` try `conda install nomkl`
-* on a Windows Ubuntu Subsystem you might see `Invalid argument (src/tcp_address.cpp:190)` then install `conda install -c jzuhone zeromq=4.1.dev` as indicated here https://github.com/Microsoft/BashOnWindows/issues/185
+* on a Windows Ubuntu (14) Subsystem you might see `Invalid argument (src/tcp_address.cpp:190)` then install `conda install -c jzuhone zeromq=4.1.dev` as indicated here https://github.com/Microsoft/BashOnWindows/issues/185
 
 ## Keras
 * https://blog.keras.io/keras-as-a-simplified-interface-to-tensorflow-tutorial.html
