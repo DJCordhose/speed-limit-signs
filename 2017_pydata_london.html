@@ -92,7 +92,203 @@
         </section>
 
         <section class="todo">
+        <h2>Plan for Today</h2>
 <pre>
+Install, 10 Minutes
+- Notebooks on Azure vs local
+
+Prep, 10 Minutes
+- Image Processing
+- Test / Train split
+
+Train (Main Part), 60 Minutes
+- Layers Types and their Functions
+- Train Concept
+- Validation
+- Trying out VGG and Inception Architectures
+- Saving the trained model
+
+Usage 10 Minutes
+- Loading the pre trained model
+- Trying it out on real life data
+</pre>
+        </section>
+
+
+        <section>
+            <h1>Main Part</h1>
+        </section>
+
+        <section>
+            <h3>Deep Learning</h3>
+            <div class="fragment">
+            <img src="img/deep-learning.png" height="500">
+            <p><small><a target="_blank" href="https://drive.google.com/file/d/0BxKBnD5y2M8NdFB4U1BtU1V1ejA/view">
+            Deep Learning: Course by Yann LeCun at Collège de France 2016
+            </a></small></p>
+            </div>
+        </section>
+
+        <section>
+            <h2>Convolutional Networks (CNN)</h2>
+            <h3>special networks to process images</h3>
+            <h3>using different kinds of specialized layers</h3>
+            <h3>often used with pre-trained models</h3>
+        </section>
+
+        <section>
+            <h3>Convolutional Networks</h3>
+            <p>turning shallow, but large data into deep semantic information</p>
+            <div>
+                <ul class="fragment">
+                    <li>some layers turn input into a number of filtered outputs
+                    <li>other layers down sample images (giving them a lower resoluation)
+                    <li>each layer adds semantic information
+                </ul>
+            </div>
+            <!--<img src="conv-network.svg">-->
+            <!--<p><small><a target="_blank" href="https://openai.com/blog/generative-models/">-->
+            <!--https://openai.com/blog/generative-models/-->
+            <!--</a></small></p>-->
+            <img src="img/udacity-ud730-convolutional-pyramid.png" style="height: 350px">
+            <p><small><a target="_blank" href="https://www.udacity.com/course/deep-learning--ud730">
+                Udacity Course 730, Deep Learning (L3 Convolutional Neural Networks > Convolutional Networks)
+            </a></small></p>
+        </section>
+
+        <section>
+        <h3>Convolutions</h3>
+        <div class="fragment">
+        <img src="img/udc-730-convolutions.png" height="500">
+        <p><small><a target="_blank" href="https://www.udacity.com/course/deep-learning--ud730">
+        Udacity Course 730, Deep Learning (L3 Convolutional Neural Networks > Convolutional Networks)
+        </a></small></p>
+        </div>
+        </section>
+
+        <section>
+            <h2>Types of Layers and their Functions</h2>
+        </section>
+
+        <section>
+            <h3>Input Layer</h3>
+            <pre><code data-trim class="line-numbers">
+# input tensor for a 3-channel 64x64 image
+inputs = Input(shape=(64, 64, 3))
+            </code></pre>
+            <p>Not strictly speaking a real layer, just interface to input</p>
+        </section>
+
+        <section>
+            <h3>Convolutional Layer</h3>
+            <pre><code data-trim class="line-numbers">
+# 32 filters with a 4x4 kernel
+x = Convolution2D(32, 4, 4, activation='relu')(x)
+            </code></pre>
+            <p>You cascade many of them having down sampling in between</p>
+        </section>
+
+        <section>
+            <h3>Down Sampling Layer</h3>
+            <pre><code data-trim class="line-numbers">
+# max pooling with 2x2 window, reducing data to a fourth
+x = MaxPooling2D(pool_size=(2, 2))(x)
+            </code></pre>
+            <p>Reduces data sizes and risk of overfitting</p>
+        </section>
+
+        <section>
+            <h3>Dropout</h3>
+            <pre><code data-trim class="line-numbers">
+# drops 50 % of all connections
+x = Dropout(0.50)(x)
+            </code></pre>
+            <p>Also reduces risk of overfitting</p>
+        </section>
+
+        <section>
+            <h3>Last Two Layers are typically again standard</h3>
+            <pre><code data-trim class="line-numbers">
+# flatten output from many layers into one
+x = Flatten()(x)
+# fully connectied, 256 nodes
+x = Dense(256, activation='relu')(x)
+
+# softmax, 6 categories
+predictions = Dense(6, activation='softmax')(x)
+            </code></pre>
+            <p>For classification and translation invariance</p>
+        </section>
+
+        <section>
+            <h2>Optmizers</h2>
+        </section>
+
+        <section>
+            <h3>Using RMSprop as an Optimizer</h3>
+            <p><a href="http://cs231n.github.io/neural-networks-3/#ada">RMSprop</a> seems to be most advanced, but not scientifically published</p>
+        </section>
+
+        <section>
+            <h3>Comparing to other optimizers</h3>
+            <img src="img/opt1.gif" class="fragment" style="float: left" width="400px">
+            <img src="img/opt2.gif" class="fragment" style="float: right" width="400px">
+            <p><small>Kudos to
+                <a href="https://twitter.com/alecrad">https://twitter.com/alecrad</a>
+                </small></p>
+        </section>
+
+        <section>
+            <h2>Architectures</h2>
+        </section>
+
+        <section>
+            <h3>Layout of a typical CNN</h3>
+            <a target="_blank" href="http://cs231n.github.io/convolutional-networks/">
+                <img src="img/convnet-layoyt.jpeg">
+            </a>
+            <a target="_blank" href="http://cs231n.github.io/convolutional-networks/">http://cs231n.github.io/convolutional-networks/</a>
+        </section>
+
+        <section>
+            <h3>VGG Architecture</h3>
+            <ol>
+                <li>we use a VGG like architecture
+                <li>based on <a href="https://arxiv.org/abs/1409.1556" target="_blank">https://arxiv.org/abs/1409.1556</a>
+                <li>basic idea: sequential, classic, use drop outs to reduce overfitting
+            </ol>
+        </section>
+
+        <section class="todo">
+            <h3>Code Sample</h3>
+        </section>
+
+        <section>
+            <h3>Google Inception Convolutional Network architecture to classify images </h3>
+            <img src="img/inception.png" height="480px">
+            <p><small><a href="https://arxiv.org/abs/1409.4842" target="_blank">Going Deeper with Convolutions</a></small></p>
+        </section>
+
+        <section>
+            <h3>Alternative Architecture #1: Inception</h3>
+            <ol>
+                <li>mentioned as <a href="https://keras.io/getting-started/functional-api-guide/" target="_blank">example in Keras documentation</a>
+                <li>based on <a href="http://arxiv.org/abs/1409.4842" target="_blank">http://arxiv.org/abs/1409.4842</a>
+                <li>basic idea: non-sequential, have different indepdent towers hat are eventually merged together
+            </ol>
+        </section>
+
+        <section class="todo">
+            <h3>Code Sample</h3>
+        </section>
+
+        <section>
+            <h1>Material</h1>
+        </section>
+
+        <section class="todo">
+<pre>
+- create bar chart for slides
 - create local version of pydata-london notebook
 - clearer description of creating the notebook on azure notebooks
 - this works:
@@ -111,6 +307,9 @@
 - provide pre trained network
 </pre>
         </section>
+
+
+
 
         <section>
             <h3>Our Challenge for today: Recognizing Speed limit signs</h3>
@@ -184,59 +383,6 @@ for providing the initial idea and many of the functions used to prepare and dis
         </section>
 
         <section>
-            <h3>Deep Learning</h3>
-            <div class="fragment">
-            <img src="img/deep-learning.png" height="500">
-            <p><small><a target="_blank" href="https://drive.google.com/file/d/0BxKBnD5y2M8NdFB4U1BtU1V1ejA/view">
-            Deep Learning: Course by Yann LeCun at Collège de France 2016
-            </a></small></p>
-            </div>
-        </section>
-
-        <section>
-            <h2>Convolutional Networks (CNN)</h2>
-            <h3>special networks to process images</h3>
-            <h3>using different kinds of specialized layers</h3>
-            <h3>often used with pre-trained models</h3>
-        </section>
-
-        <section>
-            <h3>Google Inception Convolutional Network architecture to classify images </h3>
-            <img src="img/inception.png" height="480px">
-            <p><small><a href="https://arxiv.org/abs/1409.4842" target="_blank">Going Deeper with Convolutions</a></small></p>
-        </section>
-
-        <section>
-            <h3>Convolutional Networks</h3>
-            <p>turning shallow, but large data into deep semantic information</p>
-            <div>
-                <ul class="fragment">
-                    <li>some layers turn input into a number of filtered outputs
-                    <li>other layers down sample images (giving them a lower resoluation)
-                    <li>each layer adds semantic information
-                </ul>
-            </div>
-            <!--<img src="conv-network.svg">-->
-            <!--<p><small><a target="_blank" href="https://openai.com/blog/generative-models/">-->
-            <!--https://openai.com/blog/generative-models/-->
-            <!--</a></small></p>-->
-            <img src="img/udacity-ud730-convolutional-pyramid.png" style="height: 350px">
-            <p><small><a target="_blank" href="https://www.udacity.com/course/deep-learning--ud730">
-                Udacity Course 730, Deep Learning (L3 Convolutional Neural Networks > Convolutional Networks)
-            </a></small></p>
-        </section>
-
-        <section>
-        <h3>Convolutions</h3>
-        <div class="fragment">
-        <img src="img/udc-730-convolutions.png" height="500">
-        <p><small><a target="_blank" href="https://www.udacity.com/course/deep-learning--ud730">
-        Udacity Course 730, Deep Learning (L3 Convolutional Neural Networks > Convolutional Networks)
-        </a></small></p>
-        </div>
-        </section>
-
-        <section>
         <h3>Translation Invariance</h3>
         <div class="fragment">
         <img src="img/udc-730-translation-invariance.png" height="500">
@@ -259,49 +405,6 @@ for providing the initial idea and many of the functions used to prepare and dis
             </a></small></p>
         </section>
 
-        <section>
-            <h2>Convolutional Layer</h2>
-            <pre><code data-trim class="line-numbers">
-.layer(0, new ConvolutionLayer.Builder(5, 5) // 5x5 kernel
-    .nIn(1)
-    .stride(1, 1) // how far do the filters move with each step?
-    .nOut(20) // number of filters applied
-    .build())
-            </code></pre>
-            <p>You cascade many of them having down sampling in between</p>
-        </section>
-
-        <section>
-            <h2>Down Sampling Layer</h2>
-            <pre><code data-trim class="line-numbers">
-.layer(1, new SubsamplingLayer.Builder(SubsamplingLayer.PoolingType.MAX)
-    .kernelSize(2, 2)
-    .stride(2, 2)
-    .build())
-            </code></pre>
-            <p>Reduces data sizes and risk of overfitting</p>
-        </section>
-
-        <section>
-            <h3>Layout of a typical CNN</h3>
-            <a target="_blank" href="http://cs231n.github.io/convolutional-networks/">
-                <img src="img/convnet-layoyt.jpeg">
-            </a>
-            <a target="_blank" href="http://cs231n.github.io/convolutional-networks/">http://cs231n.github.io/convolutional-networks/</a>
-        </section>
-
-        <section>
-            <h2>Last Two Layers are again standard</h2>
-            <pre><code data-trim class="line-numbers">
-.layer(4, new DenseLayer.Builder().activation(Activation.RELU)
-    .nOut(500).build())
-.layer(5, new OutputLayer.Builder()
-    .nOut(10)
-    .activation(Activation.SOFTMAX)
-    .build())
-            </code></pre>
-        </section>
-
         <section class="todo">
             <h2>Why does this work?</h2>
             <ol>
@@ -319,9 +422,9 @@ for providing the initial idea and many of the functions used to prepare and dis
             <h3>How do we achieve translation invariance?</h3>
         </section>
 
-        <section class="todo">
-            <h3>Batch Sizes</h3>
-        </section>
+        <!--<section class="todo">-->
+            <!--<h3>Batch Sizes</h3>-->
+        <!--</section>-->
 
         <section class="todo">
             <h3>Loss vs Accuracy</h3>
@@ -335,6 +438,17 @@ for providing the initial idea and many of the functions used to prepare and dis
                 <li>very likely we are overfitting just because of this
             </ol>
         </section>
+
+        <!--<section class="todo">-->
+            <!--<h3>Alternative Architecture #2: Residual connection on a convolution layer</h3>-->
+            <!--<ol>-->
+                <!--<li>mentioned as <a href="https://keras.io/getting-started/functional-api-guide/" target="_blank">example in Keras documentation</a>-->
+                <!--<li>based on <a href="http://arxiv.org/abs/1512.03385" target="_blank">http://arxiv.org/abs/1512.03385</a>-->
+                <!--<li>basic idea:-->
+            <!--</ol>-->
+        <!--</section>-->
+
+
 
    </div>
 
