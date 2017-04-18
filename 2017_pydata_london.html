@@ -116,6 +116,50 @@ Usage 10 Minutes
 
 
         <section>
+            <h3>Our Challenge for today: Recognizing Speed limit signs</h3>
+            <ul>
+                <li><a href="https://en.wikipedia.org/wiki/Traffic_sign_recognition" target="_blank">
+                    built into luxury cars for almost 10 years now
+                </a>
+                <li>We use real images from German streets
+                <li>Low Resolution, Overall bad Quality, Limited number of samples
+            </ul>
+            <img src="img/signs.png">
+           <p><small>Big Kudos to
+                <a target="_blank" href="https://medium.com/@waleedka/traffic-sign-recognition-with-tensorflow-629dffc391a6#.i728o84ib">
+Traffic Sign Recognition with TensorFlow
+                </a>
+
+                by
+
+                <a href="https://medium.com/@waleedka" target="_blank">Waleed Abdulla</a>
+
+for providing the initial idea and many of the functions used to prepare and display the images
+
+            </small></p>
+        </section>
+
+        <section>
+            <h3>Using Jupyter Notebooks</h3>
+            <p>There are three ways of following along</p>
+            <ol>
+                <li>Using preview of Notebooks on Github:
+                    <a href="https://github.com/DJCordhose/speed-limit-signs/tree/master/notebooks/azure" target="_blank">
+                        https://github.com/DJCordhose/speed-limit-signs/tree/master/notebooks/azure
+                    </a> (all you need is a browser and Internet)
+                </li>
+                <li>Using Azure Notebooks:
+                <a href="https://notebooks.azure.com" target="_blank">
+                    https://notebooks.azure.com
+                </a> (requires you to register on azure, but free of cost)
+                <li>Local Installation (if you have been in the previous session): clone from <a href="https://github.com/DJCordhose/speed-limit-signs" target="_blank">
+                        https://github.com/DJCordhose/speed-limit-signs
+                    </a> (all you need is a browser and Internet)
+
+            </ol>
+        </section>
+
+        <section>
             <h1>Main Part</h1>
         </section>
 
@@ -252,34 +296,106 @@ predictions = Dense(6, activation='softmax')(x)
 
         <section>
             <h3>VGG Architecture</h3>
-            <ol>
+            <ul>
                 <li>we use a VGG like architecture
                 <li>based on <a href="https://arxiv.org/abs/1409.1556" target="_blank">https://arxiv.org/abs/1409.1556</a>
-                <li>basic idea: sequential, classic, use drop outs to reduce overfitting
-            </ol>
-        </section>
-
-        <section class="todo">
-            <h3>Code Sample</h3>
+                <li>basic idea: sequential, deep, small convolutional filters, use dropouts to reduce overfitting
+                <li>16/19 layers are typical
+            </ul>
         </section>
 
         <section>
-            <h3>Google Inception Convolutional Network architecture to classify images </h3>
+            <h3>Code Sample</h3>
+            <pre><code data-trim>
+x = Convolution2D(32, 4, 4, activation='relu')(inputs)
+x = MaxPooling2D(pool_size=(2, 2))(x)
+x = Dropout(0.25)(x)
+
+x = Convolution2D(64, 4, 4, activation='relu')(x)
+x = MaxPooling2D(pool_size=(2, 2))(x)
+x = Dropout(0.25)(x)
+
+x = Convolution2D(128, 4, 4, activation='relu')(x)
+x = MaxPooling2D(pool_size=(2, 2))(x)
+x = Dropout(0.25)(x)
+            </code></pre>
+        </section>
+
+        <section>
+            <h3>Alternative Architecture #1: Inception</h3>
+            <ul>
+                <li>mentioned as <a href="https://keras.io/getting-started/functional-api-guide/" target="_blank">example in Keras documentation</a>
+                <li>based on <a href="http://arxiv.org/abs/1409.4842" target="_blank">http://arxiv.org/abs/1409.4842</a>
+                <li>basic idea: non-sequential, have different indepdent towers hat are eventually merged together
+            </ul>
+        </section>
+
+        <section>
+            <h3>Code Sample</h3>
+            <pre><code data-trim>
+tower_1 = Convolution2D(16, (1, 1), activation='relu')(inputs)
+tower_1 = Convolution2D(16, (3, 3), activation='relu')(tower_1)
+tower_1 = Dropout(0.5)(tower_1)
+
+tower_2 = Convolution2D(16, (1, 1), activation='relu')(inputs)
+tower_2 = Convolution2D(16, (5, 5), activation='relu')(tower_2)
+tower_2 = Dropout(0.5)(tower_2)
+
+tower_3 = MaxPooling2D((3, 3), strides=(1, 1))(inputs)
+tower_3 = Convolution2D(16, (1, 1), activation='relu')(tower_3)
+tower_3 = Dropout(0.5)(tower_3)
+
+output = keras.layers.concatenate([tower_1, tower_2, tower_3])
+</code></pre>
+        </section>
+
+        <section>
+            <h3>Full Inception Architecture</h3>
             <img src="img/inception.png" height="480px">
             <p><small><a href="https://arxiv.org/abs/1409.4842" target="_blank">Going Deeper with Convolutions</a></small></p>
         </section>
 
         <section>
-            <h3>Alternative Architecture #1: Inception</h3>
-            <ol>
+            <h3>Alternative Architecture #2: Residual connection on a convolution layer</h3>
+            <ul>
                 <li>mentioned as <a href="https://keras.io/getting-started/functional-api-guide/" target="_blank">example in Keras documentation</a>
-                <li>based on <a href="http://arxiv.org/abs/1409.4842" target="_blank">http://arxiv.org/abs/1409.4842</a>
-                <li>basic idea: non-sequential, have different indepdent towers hat are eventually merged together
-            </ol>
+                <li>based on <a href="http://arxiv.org/abs/1512.03385" target="_blank">http://arxiv.org/abs/1512.03385</a>
+                <li>basic idea: depth does matter, 8x deeper than VGG, possible by addtionally feeding in unchanged input into deeper layers
+            </ul>
         </section>
 
-        <section class="todo">
+        <section>
             <h3>Code Sample</h3>
+            <p>Many of those blocks, on after the other</p>
+            <pre><code data-trim>
+# 3x3 conv with 3 output channels (same as input channels)
+y = Conv2D(3, (3, 3), activation='relu')(input)
+# this returns input + y.
+z = keras.layers.add([input, y])</code></pre>
+            <img src="img/residual.png" height="300">
+        </section>
+
+        <section>
+            <h3>Keras Applications</h3>
+            <p>Keras comes with a numer of <a target="_blank" href="https://keras.io/applications">architectures</a> pre-trained with
+                <a href="http://www.image-net.org/" target="_blank">ImageNet</a> database
+            </p>
+            <ul>
+                <li><a target="_blank" href="https://keras.io/applications/#vgg16">VGG16</a>/<a target="_blank" href="https://keras.io/applications/#vgg19">VGG19</a>,
+                source:
+                <a href="https://github.com/fchollet/keras/blob/master/keras/applications/vgg16.py" target="_blank">
+                vgg16.py</a>
+                    /
+                <a href="https://github.com/fchollet/keras/blob/master/keras/applications/vgg19.py" target="_blank">
+                vgg19.py</a>
+                <li><a target="_blank" href="https://keras.io/applications/#resnet50">ResNet50</a>,
+                source: <a href="https://github.com/fchollet/keras/blob/master/keras/applications/resnet50.py" target="_blank">
+                resnet50.py</a>
+
+                <li><a target="_blank" href="https://keras.io/applications/#inceptionv3">Inception</a>,
+                source: <a href="https://github.com/fchollet/keras/blob/master/keras/applications/inception_v3.py" target="_blank">
+                inception_v3.py</a>
+            </ul>
         </section>
 
         <section>
@@ -309,48 +425,6 @@ predictions = Dense(6, activation='softmax')(x)
         </section>
 
 
-
-
-        <section>
-            <h3>Our Challenge for today: Recognizing Speed limit signs</h3>
-            <ul>
-                <li><a href="https://en.wikipedia.org/wiki/Traffic_sign_recognition" target="_blank">
-                    built into luxury cars for almost 10 years now
-                </a>
-                <li>We use real images from German streets
-                <li>Low Resolution, Overall bad Quality, Limited number of samples
-            </ul>
-            <img src="img/signs.png">
-           <p><small>Big Kudos to
-                <a target="_blank" href="https://medium.com/@waleedka/traffic-sign-recognition-with-tensorflow-629dffc391a6#.i728o84ib">
-Traffic Sign Recognition with TensorFlow
-                </a>
-
-                by
-
-                <a href="https://medium.com/@waleedka" target="_blank">Waleed Abdulla</a>
-
-for providing the initial idea and many of the functions used to prepare and display the images
-
-            </small></p>
-        </section>
-
-        <section>
-            <h3>Using Jupyter Notebooks</h3>
-            <p>There are two ways of following along</p>
-            <ol>
-                <li>Using preview of Notebooks on Github:
-                    <a href="https://github.com/DJCordhose/speed-limit-signs/tree/master/notebooks/azure" target="_blank">
-                        https://github.com/DJCordhose/speed-limit-signs/tree/master/notebooks/azure
-                    </a> (all you need is a browser and Internet)
-                </li>
-                <li>Using Azure Notebooks:
-                <a href="https://notebooks.azure.com" target="_blank">
-                    https://notebooks.azure.com
-                </a> (requires you to register on azure, but free of cost)
-            </ol>
-            <p><strong>Please do not try a local installation now, rather try that later @home</strong></p>
-        </section>
 
         <section>
             <h3>Task 0: Looking at the samples and understanding the challenge</h3>
@@ -438,15 +512,6 @@ for providing the initial idea and many of the functions used to prepare and dis
                 <li>very likely we are overfitting just because of this
             </ol>
         </section>
-
-        <!--<section class="todo">-->
-            <!--<h3>Alternative Architecture #2: Residual connection on a convolution layer</h3>-->
-            <!--<ol>-->
-                <!--<li>mentioned as <a href="https://keras.io/getting-started/functional-api-guide/" target="_blank">example in Keras documentation</a>-->
-                <!--<li>based on <a href="http://arxiv.org/abs/1512.03385" target="_blank">http://arxiv.org/abs/1512.03385</a>-->
-                <!--<li>basic idea:-->
-            <!--</ol>-->
-        <!--</section>-->
 
 
 
