@@ -13,7 +13,9 @@
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent"/>
 
     <meta name="viewport"
-          content="initial-scale=1.0, maximum-scale=10.0, user-scalable=yes">
+          content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, minimal-ui">
+    <!--<meta name="viewport"-->
+          <!--content="initial-scale=1.0, maximum-scale=10.0, user-scalable=yes">-->
 
     <link rel="stylesheet" href="reveal.js/css/reveal.css">
     <!--<link rel="stylesheet" href="reveal.js/css/theme/white.css" id="theme">-->
@@ -91,13 +93,19 @@
 
         </section>
 
+       <section class="todo">
+<pre>
+- [CNN] Lower batch size leads to overfitting: https://twitter.com/tomordonez/status/854832345823707137?s=03
+</pre>
+       </section>
+
         <section class="todo">
         <h2>Plan for Today</h2>
 <pre>
-Install, 10 Minutes
+Set Up, 10 Minutes
 - Notebooks on Azure vs local
 
-Prep, 10 Minutes
+Preparation, 10 Minutes
 - Image Processing
 - Test / Train split
 
@@ -113,7 +121,6 @@ Usage 10 Minutes
 - Trying it out on real life data
 </pre>
         </section>
-
 
         <section>
             <h3>Our Challenge for today: Recognizing Speed limit signs</h3>
@@ -140,6 +147,10 @@ for providing the initial idea and many of the functions used to prepare and dis
         </section>
 
         <section>
+            <h2>Step 1: Setting Up</h2>
+        </section>
+
+        <section>
             <h3>Using Jupyter Notebooks</h3>
             <p>There are three ways of following along</p>
             <ol>
@@ -149,13 +160,68 @@ for providing the initial idea and many of the functions used to prepare and dis
                     </a> (all you need is a browser and Internet)
                 </li>
                 <li>Using Azure Notebooks:
-                <a href="https://notebooks.azure.com" target="_blank">
-                    https://notebooks.azure.com
+                <a href="https://notebooks.azure.com/djcordhose/libraries/pydata" target="_blank">
+                    https://notebooks.azure.com/djcordhose/libraries/pydata
                 </a> (requires you to register on azure, but free of cost)
-                <li>Local Installation (if you have been in the previous session): clone from <a href="https://github.com/DJCordhose/speed-limit-signs" target="_blank">
+                <li>Local Installation: clone from <a href="https://github.com/DJCordhose/speed-limit-signs" target="_blank">
                         https://github.com/DJCordhose/speed-limit-signs
-                    </a> (all you need is a browser and Internet)
+                    </a>
 
+            </ol>
+        </section>
+
+       <section data-markdown>
+	<script type="text/template">
+### Accessing the Notebook on Azure
+
+1. Go to: <a href="https://notebooks.azure.com/djcordhose/libraries/pydata" target="_blank">https://notebooks.azure.com/djcordhose/libraries/pydata</a>
+1. Clcking on <a href="https://notebooks.azure.com/djcordhose/libraries/pydata/html/workspace.ipynb" target="_blank">workspace.ipynb</a> opens our notebook in Preview mode
+1. Click on `Open in Jupyter` on the top of the page to open a notebook of your own
+1. Either log in with an existing Microsoft account or create a new one
+1. This redirects you to the classic Jupyter Notebook view
+	</script>
+</section>
+
+       <section>
+           <h3>Opening a Notebook</h3>
+           <p><small>When you see this</small></p>
+           <img src="img/screenshot-jupyter-notebook-overview.png" height="100" style="position: relative; top: -40px">
+           <p style="position: relative; top: -60px"><small>Click on <em>workspace.ipynb</em> to go to this</small></p>
+           <img src="img/screenshot-jupyter-notebook.png" height="250" style="position: relative; top: -100px">
+           <p style="position: relative; top: -120px">This is the view we will work in</p>
+        </section>
+
+
+       <section>
+           <h3>Working with Notebooks</h3>
+           <ul>
+               <li>A notebook is composed of steps, either markup or code
+               <li>Pressing Enter lets you edit each step
+               <li>Pressing Tab while editing gives you code completion
+               <li>Prexifing your code with <em>!</em> makes it a shell command
+               <li>Shit+Enter executes one step and jumps to the next one
+               <li>Alt+Enter executes one step and creates a new one after that
+           </ul>
+        </section>
+
+        <section>
+            <h2>Step 2: Understanding the Challenge and Prepare the Data</h2>
+        </section>
+
+        <section>
+            <h3>Exercise: Preparation</h3>
+
+            <p>Together with the instructor step through the initial steps of the notebook</p>
+
+            <p><strong>Objective</strong>: You have a set of normalized input images ready to be fed into a network for training
+            </p>
+
+            <p><strong>Steps</strong></p>
+
+            <ol>
+                <li>Install all software necessary
+                <li>Get and understand data
+                <li>Prepare and normalize data
             </ol>
         </section>
 
@@ -419,34 +485,10 @@ z = keras.layers.add([input, y])</code></pre>
   - http://cs.stanford.edu/people/karpathy/convnetjs/demo/mnist.html
   - http://cs.stanford.edu/people/karpathy/convnetjs/demo/cifar10.html
 - https://keras.io/getting-started/faq/#how-can-i-save-a-keras-model
-- why relu
 - provide pre trained network
 </pre>
         </section>
 
-
-
-        <section>
-            <h3>Task 0: Looking at the samples and understanding the challenge</h3>
-            <h4>What preparation is needed?</h4>
-            <h4>Jupyter Notebook basics</h4>
-            <p>We open the first notebook and go through it together</p>
-                <a href="https://github.com/DJCordhose/speed-limit-signs/blob/master/notebooks/azure/pydata-london.ipynb" target="_blank">
-                    https://github.com/DJCordhose/speed-limit-signs/blob/master/notebooks/azure/pydata-london.ipynb
-                </a>
-        </section>
-
-        <section>
-            <h3>Steps</h3>
-            <ol>
-                <li>Open link to notebooks: <a href="https://notebooks.azure.com" target="_blank">
-                    https://notebooks.azure.com
-                </a> in any browser
-                <li>Either log in with your existing Microsoft Account or create a new one
-                <li>Create a new library and upload the initial notebook from <a target="_blank" href="https://raw.githubusercontent.com/DJCordhose/speed-limit-signs/master/notebooks/azure/pydata-london.ipynb">
-                    https://raw.githubusercontent.com/DJCordhose/speed-limit-signs/master/notebooks/azure/pydata-london.ipynb</a>
-            </ol>
-        </section>
 
         <section>
             <h3>Task 1: Train and Validate a simple Keras Model</h3>
@@ -536,9 +578,10 @@ z = keras.layers.add([input, y])</code></pre>
             $('.fragment').removeClass('fragment');
         }
         // applies to all versions
-//        $('.fragment').removeClass('fragment');
+        $('code').addClass('line-numbers');
     } );
 </script>
+
 
 <script>
 
