@@ -82,14 +82,40 @@
 <div class="reveal">
     <div class="slides">
 
+
+<!--
+        <section>
+        <h2>Plan for Today</h2>
+<pre>
+Set Up, 10 Minutes
+ - Notebooks on Azure vs local
+
+Preparation, 10 Minutes
+ - Image Processing
+ - Test / Train split
+
+Train (Main Part), 60 Minutes
+ - Layers Types and their Functions
+ - Train Concept
+ - Validation
+ - Trying out VGG and Inception Architectures
+ - Saving the trained model
+
+Usage 10 Minutes
+ - Loading the pre trained model
+ - Trying it out on real life data
+</pre>
+        </section>
+-->
+
         <section>
             <h3>Introduction to Convolutional Neural Networks using TensorFlow and Keras</h3>
             <h4><a href="https://pydata.org/london2017/schedule/presentation/5/" target="_blank">PyData London 2017</a></h4>
                 <p><a href="http://zeigermann.eu">Oliver Zeigermann</a> / <a href="http://twitter.com/djcordhose">@DJCordhose</a>
                 </p>
 
-            <p>Slides: <a href="https://djcordhose.github.io/speed-limit-signs/2017_pydata_london.html">
-                https://djcordhose.github.io/speed-limit-signs/2017_pydata_london.html</a></p>
+            <p>Slides: <a href="http://bit.ly/pydata-conv">
+                http://bit.ly/pydata-conv</a></p>
 
         </section>
 
@@ -97,29 +123,6 @@
 <!--<pre>-->
 <!--</pre>-->
        <!--</section>-->
-
-        <section>
-        <h2>Plan for Today</h2>
-<pre>
-Set Up, 10 Minutes
-- Notebooks on Azure vs local
-
-Preparation, 10 Minutes
-- Image Processing
-- Test / Train split
-
-Train (Main Part), 60 Minutes
-- Layers Types and their Functions
-- Train Concept
-- Validation
-- Trying out VGG and Inception Architectures
-- Saving the trained model
-
-Usage 10 Minutes
-- Loading the pre trained model
-- Trying it out on real life data
-</pre>
-        </section>
 
         <section>
             <h3>Our Challenge for today: Recognizing Speed limit signs</h3>
@@ -145,9 +148,9 @@ for providing the initial idea and many of the functions used to prepare and dis
             </small></p>
         </section>
 
-        <section>
-            <h2>Step 1: Setting Up</h2>
-        </section>
+        <!--<section>-->
+            <!--<h2>Step 1: Setting Up</h2>-->
+        <!--</section>-->
 
         <section>
             <h3>Using Jupyter Notebooks</h3>
@@ -211,12 +214,18 @@ for providing the initial idea and many of the functions used to prepare and dis
         </section>
 
         <section>
+            <h3>Switchting to Notebooks</h3>
+            <p>The rest of the talk will be guided by notebooks</p>
+        </section>
+
+<!--
+
+        <section>
             <h2>Step 2: Understanding the Challenge and Prepare the Data</h2>
         </section>
 
         <section>
-            <h3>Exercise: Preparation</h3>
-
+            <h3>Hands-On: Preparation</h3>
             <p>Together with the instructor step through the initial steps of the notebook</p>
 
             <p><strong>Objective</strong>: You have a set of normalized input images ready to be fed into a network for training
@@ -246,54 +255,24 @@ for providing the initial idea and many of the functions used to prepare and dis
         </section>
 
         <section>
-            <h3>Deep Learning</h3>
-            <div class="fragment">
-            <img src="img/deep-learning.png" height="500">
-            <p><small><a target="_blank" href="https://drive.google.com/file/d/0BxKBnD5y2M8NdFB4U1BtU1V1ejA/view">
-            Deep Learning: Course by Yann LeCun at Collège de France 2016
-            </a></small></p>
-            </div>
+            <h3>Hands-On: Trying out architectures</h3>
+
+            <p>Step through the initial steps of the notebook until <em>End of Step 3</em></p>
+
+            <p><strong>Objective</strong>: You have a set of normalized input images ready to be fed into a network for training
+            </p>
+
+            <p><strong>Steps</strong></p>
+
+            <ol>
+                <li>Install all software necessary
+                <li>Get and understand data
+                <li>Prepare and normalize data
+            </ol>
         </section>
 
         <section>
-            <h2>Convolutional Networks (CNN)</h2>
-            <h3>special networks to process images</h3>
-            <h3>using different kinds of specialized layers</h3>
-            <h3>often used with pre-trained models</h3>
-        </section>
-
-        <section>
-            <h3>Convolutional Networks</h3>
-            <p>turning shallow, but large data into deep semantic information</p>
-            <div>
-                <ul class="fragment">
-                    <li>some layers turn input into a number of filtered outputs
-                    <li>other layers down sample images (giving them a lower resoluation)
-                    <li>each layer adds semantic information
-                </ul>
-            </div>
-            <!--<img src="conv-network.svg">-->
-            <!--<p><small><a target="_blank" href="https://openai.com/blog/generative-models/">-->
-            <!--https://openai.com/blog/generative-models/-->
-            <!--</a></small></p>-->
-            <img src="img/udacity-ud730-convolutional-pyramid.png" style="height: 350px">
-            <p><small><a target="_blank" href="https://www.udacity.com/course/deep-learning--ud730">
-                Udacity Course 730, Deep Learning (L3 Convolutional Neural Networks > Convolutional Networks)
-            </a></small></p>
-        </section>
-
-        <section>
-        <h3>Convolutions</h3>
-        <div class="fragment">
-        <img src="img/udc-730-convolutions.png" height="500">
-        <p><small><a target="_blank" href="https://www.udacity.com/course/deep-learning--ud730">
-        Udacity Course 730, Deep Learning (L3 Convolutional Neural Networks > Convolutional Networks)
-        </a></small></p>
-        </div>
-        </section>
-
-        <section>
-            <h2>Types of Layers and their Functions</h2>
+            <h2>Types of Layers in CNNs and their Functions</h2>
         </section>
 
         <section>
@@ -522,7 +501,7 @@ z = keras.layers.add([input, y])</code></pre>
         <h3>Translation Invariance</h3>
         <div class="fragment">
         <img src="img/udc-730-translation-invariance.png" height="500">
-        <p><small><a target="_blank" href="https://www.udacity.com/course/deep-learning--ud730">
+        <p><small><a target="_blank" href="https://www.udacity.com/course/deep-learning&#45;&#45;ud730">
         Udacity Course 730, Deep Learning (L3 Convolutional Neural Networks > Convolutional Networks)
         </a></small></p>
         </div>
@@ -558,9 +537,9 @@ z = keras.layers.add([input, y])</code></pre>
             <h3>How do we achieve translation invariance?</h3>
         </section>
 
-        <!--<section class="todo">-->
-            <!--<h3>Batch Sizes</h3>-->
-        <!--</section>-->
+        &lt;!&ndash;<section class="todo">&ndash;&gt;
+            &lt;!&ndash;<h3>Batch Sizes</h3>&ndash;&gt;
+        &lt;!&ndash;</section>&ndash;&gt;
 
         <section class="todo">
             <h3>Loss vs Accuracy</h3>
@@ -576,6 +555,7 @@ z = keras.layers.add([input, y])</code></pre>
         </section>
 
 
+-->
 
    </div>
 
