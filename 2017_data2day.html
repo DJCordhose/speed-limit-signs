@@ -1,0 +1,739 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+
+    <title>Convolutional Neural Networks using TensorFlow and Keras</title>
+
+    <meta name="description" content="A framework for easily creating beautiful presentations using HTML">
+    <meta name="author" content="Hakim El Hattab">
+
+    <meta name="apple-mobile-web-app-capable" content="yes"/>
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent"/>
+
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, minimal-ui">
+    <!--<meta name="viewport"-->
+          <!--content="initial-scale=1.0, maximum-scale=10.0, user-scalable=yes">-->
+
+    <link rel="stylesheet" href="reveal.js/css/reveal.css">
+    <!--<link rel="stylesheet" href="reveal.js/css/theme/white.css" id="theme">-->
+    <link rel="stylesheet" href="reveal.js/css/theme/night.css" id="theme">
+    <!--<link rel="stylesheet" href="reveal.js/css/theme/black.css" id="theme">-->
+    <!--<link rel="stylesheet" href="reveal.js/css/theme/night.css" id="theme">-->
+    <!--<link rel="stylesheet" href="reveal.js/css/theme/simple.css" id="theme">-->
+
+
+    <!-- Code syntax highlighting -->
+    <link rel="stylesheet" href="reveal.js/lib/css/zenburn.css">
+    <style>
+        pre code {
+            /*display: block;*/
+            /*padding: 0.5em;*/
+            /*background: #FFFFFF !important;*/
+            /*color: #000000 !important;*/
+            font-size: larger !important;
+        }
+
+        .right-img {
+            margin-left: 10px !important;
+            float: right;
+            /*height: 500px;*/
+        }
+        .left-img {
+            margin-left: 10px !important;
+            float: left;
+            /*height: 500px;*/
+        }
+        .todo:before {
+            content: 'TODO: ';
+        }
+        .todo {
+            color: red !important;
+        }
+        code span.line-number {
+            color: lightcoral;
+        }
+
+        .reveal {
+          -ms-touch-action: auto !important;
+              touch-action: auto !important;
+        }
+
+    </style>
+
+    <!-- Printing and PDF exports -->
+    <script>
+        var link = document.createElement('link');
+        link.rel = 'stylesheet';
+        link.type = 'text/css';
+        link.href = window.location.search.match(/print-pdf/gi) ? 'reveal.js/css/print/pdf.css' : 'reveal.js/css/print/paper.css';
+        document.getElementsByTagName('head')[0].appendChild(link);
+    </script>
+
+    <!--[if lt IE 9]>
+    <script src="reveal.js/lib/js/html5shiv.js"></script>
+    <![endif]-->
+</head>
+
+<body>
+
+<div class="reveal">
+    <div class="slides">
+
+
+<!--
+        <section>
+        <h2>Plan for Today</h2>
+<pre>
+Set Up, 10 Minutes
+ - Notebooks on Azure vs local
+
+Preparation, 10 Minutes
+ - Image Processing
+ - Test / Train split
+
+Train (Main Part), 60 Minutes
+ - Layers Types and their Functions
+ - Train Concept
+ - Validation
+ - Trying out VGG and Inception Architectures
+ - Saving the trained model
+
+Usage 10 Minutes
+ - Loading the pre trained model
+ - Trying it out on real life data
+</pre>
+        </section>
+-->
+
+        <section data-markdown class="todo">
+            <script type="text/template">
+### Structure:
+
+- Einleitende Folien aus Schulprojekt inkl. Übungen auf TensorFlow Playground, 90 min
+- Ende mit Flask, 30 min
+
+### Alternative Approaches:
+
+* stm nodes
+* recurrent networks ausprobieren
+* https://github.com/ml4a/ml4a-ofx/tree/master/apps/ConvnetViewer
+* https://twitter.com/NandoDF/status/862201163680288768
+* Vergleich der Architekturen: https://medium.com/towards-data-science/neural-network-architectures-156e5bad51ba
+* https://medium.com/airbnb-engineering/automated-machine-learning-a-paradigm-shift-that-accelerates-data-scientist-productivity-airbnb-f1f8a10d61f8
+* https://codelabs.developers.google.com/codelabs/tensorflow-for-poets/index.html#0
+* https://codelabs.developers.google.com/codelabs/tensorflow-for-poets-2/#0
+* Attention based Systems from Google Brain: https://twitter.com/hardmaru/status/874438907781193728?s=03
+*https://research.googleblog.com/2017/06/supercharge-your-computer-vision-models.html?m=1
+
+### Use Imagenet?
+
+* https://github.com/tensorflow/models/tree/master/slim#preparing-the-datasets
+* Use pretrained inception and re-train final layers
+
+### Mobile TensorFlow
+
+* https://arxiv.org/abs/1704.04861
+* https://research.googleblog.com/2017/06/mobilenets-open-source-models-for.html
+* https://www.tensorflow.org/mobile/
+* https://github.com/tensorflow/models/tree/master/slim
+
+
+### Extras
+
+* Evaluate Model using Deepdream if possible with Keras model. Can we also store the tf model directly?
+* Try trained models directly in browser
+* Andere Keras Backends betrachten
+	* https://twitter.com/fchollet/status/869622717535862784?s=03
+	* https://twitter.com/mscntk/status/870318226663657472?s=03
+
+### Notebook:
+
+* Introduction
+  * Add hand crafted filters like in https://youtu.be/9ziVGkt8Gg4, around 18"20
+* https://github.com/random-forests/tensorflow-workshop/tree/master/extras
+* Flatten before submitting to Fc Layer in first example
+* Conv Example: http://ml4a.github.io/dev/demos/demo_convolution.html
+* For longer sessions: introduce machine learning before
+* model.summary() einbauen
+* rmsprop nicht zeigen
+* kein fc zeigen?
+  * eher mehr architectures
+* https://keras.io/preprocessing/image/
+* use bw pictures?
+
+### Flask
+* Implementation is in `server` directory
+* Let people upload their models to my prepared production environment
+
+### Why does all this work?
+* https://twitter.com/fchollet/status/875487464252596225?s=03
+
+### Other courses
+* https://twitter.com/fchollet/status/868573790774546432?s=03
+
+### Small Data
+* http://beamandrew.github.io/deeplearning/2017/06/04/deep_learning_works.html
+
+### Intro: Why is Keras successful
+* https://twitter.com/fchollet/status/869996331028193280?s=03
+
+Cheat Sheet
+* https://www.datacamp.com/community/blog/keras-cheat-sheet
+
+            </script>
+        </section>
+
+        <section data-markdown class="preparation">
+            <script type="text/template">
+# Preparation
+
+            </script>
+        </section>
+
+        <section>
+            <h3>Introduction to Convolutional Neural Networks using TensorFlow and Keras</h3>
+            <h4><a href="https://pydata.org/london2017/schedule/presentation/5/" target="_blank">PyData London 2017</a></h4>
+                <p><a href="http://zeigermann.eu">Oliver Zeigermann</a> / <a href="http://twitter.com/djcordhose">@DJCordhose</a>
+                </p>
+
+            <p>Slides: <a href="http://bit.ly/pydata-conv">
+                http://bit.ly/pydata-conv</a></p>
+
+        </section>
+
+        <section>
+            <h3>Our Challenge for today: Recognizing Speed limit signs</h3>
+            <ul>
+                <li><a href="https://en.wikipedia.org/wiki/Traffic_sign_recognition" target="_blank">
+                    built into luxury cars for almost 10 years now
+                </a>
+                <li>We use real images from German streets
+                <li>Low Resolution, Overall bad Quality, Limited number of samples, but also detail views
+            </ul>
+            <img src="img/signs.png">
+           <p><small>Big Kudos to
+                <a target="_blank" href="https://medium.com/@waleedka/traffic-sign-recognition-with-tensorflow-629dffc391a6#.i728o84ib">
+Traffic Sign Recognition with TensorFlow
+                </a>
+
+                by
+
+                <a href="https://medium.com/@waleedka" target="_blank">Waleed Abdulla</a>
+
+for providing the initial idea and many of the functions used to prepare and display the images
+
+            </small></p>
+        </section>
+
+        <!--<section>-->
+            <!--<h2>Step 1: Setting Up</h2>-->
+        <!--</section>-->
+
+        <section>
+            <h3>Using Jupyter Notebooks</h3>
+            <p>There are two ways of following along</p>
+            <ol>
+                <!--<li>Using preview of Notebooks on Github:-->
+                    <!--<a href="https://github.com/DJCordhose/speed-limit-signs/tree/master/notebooks/azure" target="_blank">-->
+                        <!--https://github.com/DJCordhose/speed-limit-signs/tree/master/notebooks/azure-->
+                    <!--</a>-->
+                <!--</li>-->
+                <li>Using Azure Notebooks without any installation:
+                <a href="http://bit.ly/pydata-azure" target="_blank">
+                    http://bit.ly/pydata-azure
+                </a>
+                    <ul>
+                        <li>requires you to register on azure, but free of cost</li>
+                        <li>should run much faster than local installation</li>
+                    </ul>
+                <li>Local Installation: clone from <a href="https://github.com/DJCordhose/speed-limit-signs" target="_blank">
+                        https://github.com/DJCordhose/speed-limit-signs</a>
+                <ul>
+                    <li>follow instructions in Readme.md
+                    </li>
+                </ul>
+            </li>
+            </ol>
+        </section>
+
+       <section data-markdown>
+	<script type="text/template">
+### Accessing the Notebook on Azure
+
+1. Go to: <a href="http://bit.ly/pydata-azure" target="_blank">http://bit.ly/pydata-azure</a>
+1. Clicking on <a href="https://notebooks.azure.com/djcordhose/libraries/pydata/html/workspace.ipynb" target="_blank">workspace.ipynb</a> opens our notebook in Preview mode
+1. Click on `Clone` on the top of the page to open a notebook of your own
+1. Either log in with an existing Microsoft account or create a new one
+1. This redirects you to the classic Jupyter Notebook view
+	</script>
+</section>
+
+       <section>
+           <h3>Opening a Notebook</h3>
+           <p><small>When you see this</small></p>
+           <img src="img/screenshot-jupyter-notebook-overview.png" height="100" style="position: relative; top: -40px">
+           <p style="position: relative; top: -60px"><small>Click on <em>workspace.ipynb</em> to go to this</small></p>
+           <img src="img/screenshot-jupyter-notebook.png" height="250" style="position: relative; top: -100px">
+           <p style="position: relative; top: -120px">This is the view we will work in</p>
+        </section>
+
+
+       <section>
+           <h3>Working with Notebooks</h3>
+           <ul>
+               <li>A notebook is composed of steps, either markup or code
+               <li>Pressing Enter lets you edit each step
+               <li>Pressing Tab while editing gives you code completion
+               <li>Prexifing your code with <em>!</em> makes it a shell command
+               <li>Shit+Enter executes one step and jumps to the next one
+               <li>Alt+Enter executes one step and creates a new one after that
+           </ul>
+        </section>
+
+        <section>
+            <h3>Links</h3>
+            <ul>
+                <li><a href="https://keras.io/" target="_blank">https://keras.io/</a></li>
+                <li><a href="http://cs231n.github.io/" target="_blank">http://cs231n.github.io/</a></li>
+                <li><a href="http://cs231n.github.io/convolutional-networks/" target="_blank">http://cs231n.github.io/convolutional-networks/</a></li>
+                <li><a href="http://cs.stanford.edu/people/karpathy/convnetjs/" target="_blank">http://cs.stanford.edu/people/karpathy/convnetjs/</a></li>
+
+                <li>
+                    <ul>Scientific Foundations
+                        <li><a href="https://arxiv.org/abs/1409.1556" target="_blank">https://arxiv.org/abs/1409.1556 (VGG)</a>
+                        <li><a href="https://arxiv.org/abs/1409.4842" target="_blank">https://arxiv.org/abs/1409.4842 (Inception)</a>
+                        <li><a href="https://arxiv.org/abs/1512.03385" target="_blank">https://arxiv.org/abs/1512.03385 (Resnet)</a>
+
+                        </li>
+                    </ul>
+                </li>
+            </ul>
+
+        </section>
+
+       <section>
+            <h3>Switchting to Notebooks</h3>
+            <p>The rest of the talk will be guided by notebooks</p>
+        </section>
+
+
+<!--
+
+        <section>
+            <h2>Step 2: Understanding the Challenge and Prepare the Data</h2>
+        </section>
+
+        <section>
+            <h3>Hands-On: Preparation</h3>
+            <p>Together with the instructor step through the initial steps of the notebook</p>
+
+            <p><strong>Objective</strong>: You have a set of normalized input images ready to be fed into a network for training
+            </p>
+
+            <p><strong>Steps</strong></p>
+
+            <ol>
+                <li>Install all software necessary
+                <li>Get and understand data
+                <li>Prepare and normalize data
+            </ol>
+        </section>
+
+        <section>
+            <h1>Main Part</h1>
+        </section>
+
+        <section>
+            <h2>Step 3: Finding the right architecture</h2>
+        </section>
+
+        <section>
+            <h3>Finding the right architecture can be very tricky</h3>
+            <p>If you have a lot of computational power you can have a system that can learn the right architecture</p>
+            <p>Theoretically, this is very easy: <a href="http://cs231n.github.io/neural-networks-1/#power" target="_blank">a single hidden layer can approximate any function</a></p>
+        </section>
+
+        <section>
+            <h3>Hands-On: Trying out architectures</h3>
+
+            <p>Step through the initial steps of the notebook until <em>End of Step 3</em></p>
+
+            <p><strong>Objective</strong>: You have a set of normalized input images ready to be fed into a network for training
+            </p>
+
+            <p><strong>Steps</strong></p>
+
+            <ol>
+                <li>Install all software necessary
+                <li>Get and understand data
+                <li>Prepare and normalize data
+            </ol>
+        </section>
+
+        <section>
+            <h2>Types of Layers in CNNs and their Functions</h2>
+        </section>
+
+        <section>
+            <h3>Input Layer</h3>
+            <pre><code data-trim class="line-numbers">
+# input tensor for a 3-channel 64x64 image
+inputs = Input(shape=(64, 64, 3))
+            </code></pre>
+            <p>Not strictly speaking a real layer, just interface to input</p>
+        </section>
+
+        <section>
+            <h3>Convolutional Layer</h3>
+            <pre><code data-trim class="line-numbers">
+# 32 filters with a 4x4 kernel
+x = Convolution2D(32, 4, 4, activation='relu')(x)
+            </code></pre>
+            <p>You cascade many of them having down sampling in between</p>
+        </section>
+
+        <section>
+            <h3>Down Sampling Layer</h3>
+            <pre><code data-trim class="line-numbers">
+# max pooling with 2x2 window, reducing data to a fourth
+x = MaxPooling2D(pool_size=(2, 2))(x)
+            </code></pre>
+            <p>Reduces data sizes and risk of overfitting</p>
+        </section>
+
+        <section>
+            <h3>Dropout</h3>
+            <pre><code data-trim class="line-numbers">
+# drops 50 % of all connections
+x = Dropout(0.50)(x)
+            </code></pre>
+            <p>Also reduces risk of overfitting</p>
+        </section>
+
+        <section>
+            <h3>Last Two Layers are typically again standard</h3>
+            <pre><code data-trim class="line-numbers">
+# flatten output from many layers into one
+x = Flatten()(x)
+# fully connectied, 256 nodes
+x = Dense(256, activation='relu')(x)
+
+# softmax, 6 categories
+predictions = Dense(6, activation='softmax')(x)
+            </code></pre>
+            <p>For classification and translation invariance</p>
+        </section>
+
+        <section>
+            <h2>Optmizers</h2>
+        </section>
+
+        <section>
+            <h3>Using RMSprop as an Optimizer</h3>
+            <p><a href="http://cs231n.github.io/neural-networks-3/#ada">RMSprop</a> seems to be most advanced, but not scientifically published</p>
+        </section>
+
+        <section>
+            <h3>Comparing to other optimizers</h3>
+            <img src="img/opt1.gif" class="fragment" style="float: left" width="400px">
+            <img src="img/opt2.gif" class="fragment" style="float: right" width="400px">
+            <p><small>Kudos to
+                <a href="https://twitter.com/alecrad">https://twitter.com/alecrad</a>
+                </small></p>
+        </section>
+
+        <section>
+            <h2>Step 4: Training a VGG style architecture</h2>
+        </section>
+
+        <section>
+            <h2>Architectures</h2>
+        </section>
+
+        <section>
+            <h3>Layout of a typical CNN</h3>
+            <a target="_blank" href="http://cs231n.github.io/convolutional-networks/">
+                <img src="img/convnet-layoyt.jpeg">
+            </a>
+            <a target="_blank" href="http://cs231n.github.io/convolutional-networks/">http://cs231n.github.io/convolutional-networks/</a>
+        </section>
+
+        <section>
+            <h3>VGG Architecture</h3>
+            <ul>
+                <li>we use a VGG like architecture
+                <li>based on <a href="https://arxiv.org/abs/1409.1556" target="_blank">https://arxiv.org/abs/1409.1556</a>
+                <li>basic idea: sequential, deep, small convolutional filters, use dropouts to reduce overfitting
+                <li>16/19 layers are typical
+            </ul>
+        </section>
+
+        <section>
+            <h3>Code Sample</h3>
+            <pre><code data-trim>
+x = Convolution2D(32, 4, 4, activation='relu')(inputs)
+x = MaxPooling2D(pool_size=(2, 2))(x)
+x = Dropout(0.25)(x)
+
+x = Convolution2D(64, 4, 4, activation='relu')(x)
+x = MaxPooling2D(pool_size=(2, 2))(x)
+x = Dropout(0.25)(x)
+
+x = Convolution2D(128, 4, 4, activation='relu')(x)
+x = MaxPooling2D(pool_size=(2, 2))(x)
+x = Dropout(0.25)(x)
+            </code></pre>
+        </section>
+
+        <section>
+            <h3>Alternative Architecture #1: Inception</h3>
+            <ul>
+                <li>mentioned as <a href="https://keras.io/getting-started/functional-api-guide/" target="_blank">example in Keras documentation</a>
+                <li>based on <a href="http://arxiv.org/abs/1409.4842" target="_blank">http://arxiv.org/abs/1409.4842</a>
+                <li>basic idea: non-sequential, have different indepdent towers hat are eventually merged together
+            </ul>
+        </section>
+
+        <section>
+            <h3>Code Sample</h3>
+            <pre><code data-trim>
+tower_1 = Convolution2D(16, (1, 1), activation='relu')(inputs)
+tower_1 = Convolution2D(16, (3, 3), activation='relu')(tower_1)
+tower_1 = Dropout(0.5)(tower_1)
+
+tower_2 = Convolution2D(16, (1, 1), activation='relu')(inputs)
+tower_2 = Convolution2D(16, (5, 5), activation='relu')(tower_2)
+tower_2 = Dropout(0.5)(tower_2)
+
+tower_3 = MaxPooling2D((3, 3), strides=(1, 1))(inputs)
+tower_3 = Convolution2D(16, (1, 1), activation='relu')(tower_3)
+tower_3 = Dropout(0.5)(tower_3)
+
+output = keras.layers.concatenate([tower_1, tower_2, tower_3])
+</code></pre>
+        </section>
+
+        <section>
+            <h3>Full Inception Architecture</h3>
+            <img src="img/inception.png" height="480px">
+            <p><small><a href="https://arxiv.org/abs/1409.4842" target="_blank">Going Deeper with Convolutions</a></small></p>
+        </section>
+
+        <section>
+            <h3>Alternative Architecture #2: Residual connection on a convolution layer</h3>
+            <ul>
+                <li>mentioned as <a href="https://keras.io/getting-started/functional-api-guide/" target="_blank">example in Keras documentation</a>
+                <li>based on <a href="http://arxiv.org/abs/1512.03385" target="_blank">http://arxiv.org/abs/1512.03385</a>
+                <li>basic idea: depth does matter, 8x deeper than VGG, possible by addtionally feeding in unchanged input into deeper layers
+            </ul>
+        </section>
+
+        <section>
+            <h3>Code Sample</h3>
+            <p>Many of those blocks, on after the other</p>
+            <pre><code data-trim>
+# 3x3 conv with 3 output channels (same as input channels)
+y = Conv2D(3, (3, 3), activation='relu')(input)
+# this returns input + y.
+z = keras.layers.add([input, y])</code></pre>
+            <img src="img/residual.png" height="300">
+        </section>
+
+        <section>
+            <h3>Keras Applications</h3>
+            <p>Keras comes with a numer of <a target="_blank" href="https://keras.io/applications">architectures</a> pre-trained with
+                <a href="http://www.image-net.org/" target="_blank">ImageNet</a> database
+            </p>
+            <ul>
+                <li><a target="_blank" href="https://keras.io/applications/#vgg16">VGG16</a>/<a target="_blank" href="https://keras.io/applications/#vgg19">VGG19</a>,
+                source:
+                <a href="https://github.com/fchollet/keras/blob/master/keras/applications/vgg16.py" target="_blank">
+                vgg16.py</a>
+                    /
+                <a href="https://github.com/fchollet/keras/blob/master/keras/applications/vgg19.py" target="_blank">
+                vgg19.py</a>
+                <li><a target="_blank" href="https://keras.io/applications/#resnet50">ResNet50</a>,
+                source: <a href="https://github.com/fchollet/keras/blob/master/keras/applications/resnet50.py" target="_blank">
+                resnet50.py</a>
+
+                <li><a target="_blank" href="https://keras.io/applications/#inceptionv3">Inception</a>,
+                source: <a href="https://github.com/fchollet/keras/blob/master/keras/applications/inception_v3.py" target="_blank">
+                inception_v3.py</a>
+            </ul>
+        </section>
+
+        <section>
+            <h1>Material</h1>
+        </section>
+
+        <section class="todo">
+<pre>
+- create bar chart for slides
+- create local version of pydata-london notebook
+- clearer description of creating the notebook on azure notebooks
+- this works:
+    - go to: https://notebooks.azure.com/djcordhose/libraries/pydata
+    - click on workspace.ipynb
+    - azure will ask you to login or create a new account
+    - this automatically creates a copy of the library and starts the notebook
+- deleting the clone and trying again will give an error
+- try it out with the floreysoft user
+- have creating from github as a fallback
+- Grafiken aus ConvNet einbauen zur Illustration, was ein ConvNet tut, eigentlich ja Blackbox
+  - http://cs.stanford.edu/people/karpathy/convnetjs/demo/mnist.html
+  - http://cs.stanford.edu/people/karpathy/convnetjs/demo/cifar10.html
+- https://keras.io/getting-started/faq/#how-can-i-save-a-keras-model
+- provide pre trained network
+</pre>
+        </section>
+
+
+        <section>
+            <h3>Task 1: Train and Validate a simple Keras Model</h3>
+        </section>
+
+        <section>
+            <h3>Task 2: Creating a convolutional Network</h3>
+        </section>
+
+        <section>
+        <h3>Translation Invariance</h3>
+        <div class="fragment">
+        <img src="img/udc-730-translation-invariance.png" height="500">
+        <p><small><a target="_blank" href="https://www.udacity.com/course/deep-learning&#45;&#45;ud730">
+        Udacity Course 730, Deep Learning (L3 Convolutional Neural Networks > Convolutional Networks)
+        </a></small></p>
+        </div>
+        </section>
+
+        <section>
+            <h3>Intuition for Convolutional Networks</h3>
+            <div class="fragment">
+                <p>E.g. to recognize dogs (again a classification problem)</p>
+                <img src="img/dogs.jpg">
+                <p class="fragment">using an internal representation like</p>
+                <img class="fragment" src="img/vgg_filter_05_crop.jpg">
+            </div>
+            <p><small><a target="_blank" href="https://auduno.github.io/2016/06/18/peeking-inside-convnets/">
+                https://auduno.github.io/2016/06/18/peeking-inside-convnets/
+            </a></small></p>
+        </section>
+
+        <section class="todo">
+            <h2>Why does this work?</h2>
+            <ol>
+                <li>CNNs are mostly a black box
+                <li>Understanding how they work is a moving field
+                <li>Many things previously believed to be true no longer hold
+            </ol>
+        </section>
+
+        <section class="todo">
+            <h3>Why RELU Activation?</h3>
+        </section>
+
+        <section class="todo">
+            <h3>How do we achieve translation invariance?</h3>
+        </section>
+
+        &lt;!&ndash;<section class="todo">&ndash;&gt;
+            &lt;!&ndash;<h3>Batch Sizes</h3>&ndash;&gt;
+        &lt;!&ndash;</section>&ndash;&gt;
+
+        <section class="todo">
+            <h3>Loss vs Accuracy</h3>
+        </section>
+
+        <section class="todo">
+            <h3>A word on overfitting</h3>
+            <ol>
+                <li>we do not have a lot of data to train with
+                <li>80 / 20 split for training might still be a bad idea
+                <li>very likely we are overfitting just because of this
+            </ol>
+        </section>
+
+
+-->
+
+   </div>
+
+</div>
+
+<script src="reveal.js/lib/js/head.min.js"></script>
+<script src="reveal.js/js/reveal.js"></script>
+<script src="lib/jquery-2.2.4.js"></script>
+
+<script>
+    if (window.location.hostname.indexOf('localhost') !== -1) {
+    } else {
+        // only applies to public version
+        $('.preparation').remove();
+    }
+
+    $('section').attr('data-background-image', "backgrounds/dark-blur.jpg")
+</script>
+<script>
+    Reveal.addEventListener( 'ready', function( event ) {
+        if (window.location.hostname.indexOf('localhost') !== -1) {
+            // only applies to presentation version
+            Reveal.configure({ controls: false });
+        } else {
+            // only applies to public version
+            $('.fragment').removeClass('fragment');
+        }
+        // applies to all versions
+        $('code').addClass('line-numbers');
+    } );
+</script>
+
+
+<script>
+
+    // Full list of configuration options available at:
+    // https://github.com/hakimel/reveal.js#configuration
+    Reveal.initialize({
+        controls: true,
+        progress: true,
+        history: true,
+        center: true,
+
+        transition: 'fade', // none/fade/slide/convex/concave/zoom
+
+        // Optional reveal.js plugins
+        dependencies: [
+            {
+                src: 'reveal.js/lib/js/classList.js', condition: function () {
+                return !document.body.classList;
+            }
+            },
+            {
+                src: 'reveal.js/plugin/markdown/marked.js', condition: function () {
+                return !!document.querySelector('[data-markdown]');
+            }
+            },
+            {
+                src: 'reveal.js/plugin/markdown/markdown.js', condition: function () {
+                return !!document.querySelector('[data-markdown]');
+            }
+            },
+            {
+                src: 'reveal.js/plugin/highlight/highlight.js', async: true, condition: function () {
+                return !!document.querySelector('pre code');
+            }, callback: function () {
+                hljs.initHighlightingOnLoad();
+            }
+            },
+            {src: 'reveal.js/plugin/zoom-js/zoom.js', async: true},
+            {src: 'reveal.js/plugin/notes/notes.js', async: true},
+            {src: 'lib/js/line-numbers.js'}
+        ]
+    });
+
+</script>
+
+</body>
+</html>
