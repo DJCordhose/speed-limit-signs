@@ -16,7 +16,7 @@ import numpy as np
 from keras.models import load_model
 
 model = load_model('models/conv-vgg.h5')
-model = load_model('models/conv-residual.h5')
+# model = load_model('models/conv-residual.h5')
 
 import skimage.data
 import skimage.transform
