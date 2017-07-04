@@ -1,3 +1,8 @@
 idea/workspace.xml
 notebooks/local/models
+notebooks/speed-limit-signs
+notebooks/speed-limit-signs.zip
+notebooks/augmented-signs
+notebooks/augmented-signs.zip
+
 *-checkpoint.ipynb
