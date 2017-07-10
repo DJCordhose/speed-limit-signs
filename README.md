@@ -8,7 +8,7 @@ https://medium.com/@waleedka/traffic-sign-recognition-with-tensorflow-629dffc391
 for providing the initial idea and many of the functions used to prepare and display the images
 
 ## Local Installation for Notebooks (Works on Mac, Linux, and Ubuntu Subsystem for Windows 10)
-* Install 3.x Anaconda https://www.continuum.io/downloads
+* Install latest Anaconda for Python 3.6 (or later) https://www.continuum.io/downloads
 * Update to latest version of sklearn `conda install --name root scikit-learn`
 * Install TensorFlow: https://www.tensorflow.org/install/ `conda install --name root -c conda-forge tensorflow`
 * Install Keras: https://keras.io/#installation `pip install keras`
