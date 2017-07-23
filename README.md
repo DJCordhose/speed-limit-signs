@@ -13,7 +13,7 @@ for providing the initial idea and many of the functions used to prepare and dis
 * Install TensorFlow: https://www.tensorflow.org/install/ `conda install --name root -c conda-forge tensorflow`
 * Install Keras: https://keras.io/#installation `pip install keras`
 * `cd notebooks/local`
-* `jupyter notebook --no-browser`
+* `jupyter notebook`
 
 ### Troubleshooting
 * If you see `Intel MKL FATAL ERROR: Cannot load libmkl_avx2.so or libmkl_def.so.` try `conda install nomkl`
