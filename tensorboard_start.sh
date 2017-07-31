@@ -1,1 +1,1 @@
-nohup tensorboard --logdir=./tmp/tf_log
+nohup tensorboard --logdir=./tmp/tf_log&

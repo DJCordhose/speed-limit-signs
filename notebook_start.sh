@@ -1,2 +1,2 @@
 cd notebooks
-nohup jupyter notebook
+nohup jupyter notebook&
