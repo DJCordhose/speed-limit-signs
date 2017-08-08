@@ -1,0 +1,28 @@
+Starting TensorBoard b'54' at http://ip-172-31-27-122:6006
+(Press CTRL+C to quit)
+Starting TensorBoard b'54' at http://ip-172-31-27-122:6006
+(Press CTRL+C to quit)
+WARNING:tensorflow:path ../external/weblas_weblas_js/file/weblas.map.json not found, sending 404
+WARNING:tensorflow:path ../external/web_animations_js/web-animations-next-lite.min.js.map not found, sending 404
+ERROR:tensorflow:Unable to get size of /home/ubuntu/speed-limit-signs/tmp/tf_log/events.out.tfevents.1501487033.ip-172-31-27-122: /home/ubuntu/speed-limit-signs/tmp/tf_log/events.out.tfevents.1501487033.ip-172-31-27-122
+WARNING:tensorflow:Found more than one graph event per run, or there was a metagraph containing a graph_def, as well as one or more graph events.  Overwriting the graph with the newest event.
+WARNING:tensorflow:Found more than one metagraph event per run. Overwriting the metagraph with the newest event.
+Starting TensorBoard b'54' at http://ip-172-31-27-122:6006
+(Press CTRL+C to quit)
+Starting TensorBoard b'54' at http://ip-172-31-27-122:6006
+(Press CTRL+C to quit)
+ERROR:tensorflow:Unable to get size of /home/ubuntu/speed-limit-signs/tmp/tf_log/events.out.tfevents.1501494438.ip-172-31-27-122: /home/ubuntu/speed-limit-signs/tmp/tf_log/events.out.tfevents.1501494438.ip-172-31-27-122
+WARNING:tensorflow:Found more than one graph event per run, or there was a metagraph containing a graph_def, as well as one or more graph events.  Overwriting the graph with the newest event.
+WARNING:tensorflow:Found more than one metagraph event per run. Overwriting the metagraph with the newest event.
+WARNING:tensorflow:Found more than one graph event per run, or there was a metagraph containing a graph_def, as well as one or more graph events.  Overwriting the graph with the newest event.
+WARNING:tensorflow:Found more than one metagraph event per run. Overwriting the metagraph with the newest event.
+Starting TensorBoard b'54' at http://ip-172-31-27-122:6006
+(Press CTRL+C to quit)
+WARNING:tensorflow:Found more than one graph event per run, or there was a metagraph containing a graph_def, as well as one or more graph events.  Overwriting the graph with the newest event.
+WARNING:tensorflow:Found more than one metagraph event per run. Overwriting the metagraph with the newest event.
+Starting TensorBoard b'54' at http://ip-172-31-27-122:6006
+(Press CTRL+C to quit)
+Starting TensorBoard b'54' at http://ip-172-31-27-122:6006
+(Press CTRL+C to quit)
+Starting TensorBoard b'54' at http://ip-172-31-27-122:6006
+(Press CTRL+C to quit)
