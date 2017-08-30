@@ -6,7 +6,6 @@ notebooks/speed-limit-signs.zip
 notebooks/augmented-signs
 notebooks/augmented-signs.zip
 data/augmented-signs
-data/augmented-signs.zip
 tmp
 
 *-checkpoint.ipynb
