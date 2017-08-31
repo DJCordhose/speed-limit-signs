@@ -1,3 +1,4 @@
 tmp/*.png
 nohup.out
 tf_log
+data
