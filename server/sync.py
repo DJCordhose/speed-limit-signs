@@ -23,12 +23,14 @@ app = Flask(__name__)
 @app.route('/')
 def predict_url():
     url = request.json['url']
+    print (url)
     # url = '1000/70-house-detail.jpg'
     image = load_image_from_url(url)
     predicted_category, prediction = predict(image)
 
     response = {
-        'category': predicted_category.tolist()
+        'category': predicted_category.tolist(),
+        'prediction': prediction.tolist()
     }
     return jsonify(response)
 
