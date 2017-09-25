@@ -37,5 +37,5 @@ def predict_url():
 # Can not use Debug, lets Flask mess with tensorflow as it seems
 # http://stackoverflow.com/questions/41991756/valueerror-tensor-is-not-an-element-of-this-graph
 if __name__ == '__main__':
-    app.run(debug=False)
+    app.run(debug=False, host='0.0.0.0', port=8888)
 
