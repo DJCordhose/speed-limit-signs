@@ -22,18 +22,28 @@ app = Flask(__name__)
 
 @app.route('/')
 def predict_url():
-    url = request.json['url']
-    # url = '1000/70-house-detail.jpg'
+    json = request.json
+    url = json['url']
+    print ('url:', url)
+    if 'model' in json:
+        model = json['model']
+    else:
+        model = 'default'
+    print ('model:', model)
     image = load_image_from_url(url)
-    predicted_category, prediction = predict(image)
+    # image = load_image_from_file('1000/70-house-detail.jpg')
+    predicted_category, prediction = predict(image, model)
 
     response = {
-        'category': predicted_category.tolist()
+        'category': predicted_category.tolist(),
+        'prediction': prediction.tolist(),
+        'model': model
     }
     return jsonify(response)
 
 # Can not use Debug, lets Flask mess with tensorflow as it seems
 # http://stackoverflow.com/questions/41991756/valueerror-tensor-is-not-an-element-of-this-graph
 if __name__ == '__main__':
+    # app.run(debug=False, host='0.0.0.0', port=8888)
     app.run(debug=False)
 
